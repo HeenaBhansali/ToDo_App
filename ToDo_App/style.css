@@ -10,19 +10,21 @@ button {
     padding: 0; */
 }
 
-body {
-    background: #1abc9c;
-    /* padding: 80px 0 0 0; */
+html {
+    height: 100%;
+    background: linear-gradient(#0b5a4a, #1abc9c);
 }
 
-div.item {
-    padding: 80px 0 0 0;
+h1 {
+    text-align: center;
+    color: teal;
 }
 
 header {
-    width: 30%;
-    height: 80px;
-    position: fixed;
+    margin: 0 auto;
+    width: 50%;
+    /* height: 80px; */
+    position: relative;
     padding: 15px;
     /* top: 0;
     left: 0; */
@@ -33,10 +35,32 @@ header {
     /* z-index: 1; */
 }
 
+button.remove {
+    background: #db4949;
+    /* width: 50px; */
+    height: 30px;
+    float: right;
+    color: #fff;
+    /* box-align: right; */
+}
+
+.complete {
+    background: #db4949;
+}
+
+button.edit {
+    background: teal;
+    /* width: 50px; */
+    height: 30px;
+    color: #fff;
+    /* align-self: left; */
+    float: right;
+}
+
 header input {
     width: 100%;
     height: 50px;
-    float: left;
+    /* float: left; */
     font-size: 20px;
     font-weight: 400;
     text-indent: 15px;
@@ -51,11 +75,18 @@ header input {
     border-bottom-right-radius: 25px;
 }
 
+div.list {
+    /* margin: 35%; */
+    border: 2px solid #1abc9c;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
 header button {
     width: 50px;
     height: 50px;
     position: absolute;
-    top: 15px;
+    /* top: 15px; */
     right: 10px;
     border: 0px;
     /* z-index: 2; */
@@ -71,26 +102,40 @@ header button {
 }
 
 ul.list {
-    /* padding: 80px 0 0 0; */
-    width: 30%;
-    height: 80px;
-    position: fixed;
+    /* border: 2px solid #1abc9c;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px; */
+    margin: 10px auto 10px auto;
+    /* padding: 20 10 15 25; */
+    width: 50%;
+    /* border-radius: 15px; */
+    /* height: 50px; */
+    /* position: fixed; */
     padding-left: 0;
+    /* padding-bottom: 50px; */
     /* width: 100%; */
     /* float: left; */
-    width: 30%;
-    height: 80px;
+    /* width: 30%;
+    height: 80px; */
+    /* margin: 10px */
     /* position: fixed; */
     /* padding: 10px; */
 }
 
 ul.list li {
     list-style: none;
-    width: 30%;
-    height: 80px;
-    position: fixed;
-    /* padding: 10px; */
-    float: left;
+    width: 100%;
+    height: 60px;
+    /* position: fixed; */
+    padding: 10px;
+    /* float: inline-start; */
     background: #fff;
-    border-radius: 5px;
+    color: #db4949;
+    font-size: 35px;
+    font-weight: 400;
+    /* border-radius: 5px; */
+}
+
+ul.list li:nth-child(odd) {
+    color: teal;
 }
