@@ -5,18 +5,29 @@
     <meta charset="UTF-8">
     <title>Todo List</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Pacifico" rel="stylesheet">
 </head>
 
 <body>
-    <div>
-        <h1>Todo List
-            <h1>
+    <centre>
+        <div class="container">
+            <header>
                 <input type="text" id="text" placeholder="What needs to be done ?">
-                <button id="add">Add</button>
-                <button id="remove">Remove</button>
-                <ul id="list"></ul>
-    </div>
-    <script type="text/javascript" src="app.js"></script>
+                <button id="add">+</button>
+            </header>
+            <!-- <h1>Todo List: </h1> -->
+            <!-- <input type="text" id="text" placeholder="What needs to be done ?"> -->
+            <!-- <button id="add">Add</button>
+                <button id="remove">Remove</button> -->
+            <div class="item">
+                <ul class="list" id="list">
+                    <li>this is item</li>
+
+                </ul>
+            </div>
+            <script type="text/javascript" src="script.js"></script>
+        </div>
+    </centre>
 </body>
 
 </html>
