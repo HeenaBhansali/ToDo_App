@@ -53,28 +53,28 @@ const taskDone = function(e) {
 }
 
 const notesEditDel = function(elem) {
-    const notesBtn = document.createElement('button')
-    const delBtn = document.createElement('button')
-    const editBtn = document.createElement('button')
-    const notes = document.createTextNode('notes')
-    const del = document.createTextNode('delete')
-    const edit = document.createTextNode('edit')
-    notesBtn.setAttribute('class', 'notes')
-    delBtn.setAttribute('class', 'delete')
-    editBtn.setAttribute('class', 'edit')
-    notesBtn.appendChild(notes)
-    delBtn.appendChild(del)
-    editBtn.appendChild(edit)
+        const notesBtn = document.createElement('button')
+        const delBtn = document.createElement('button')
+        const editBtn = document.createElement('button')
+        const notes = document.createTextNode('notes')
+        const del = document.createTextNode('delete')
+        const edit = document.createTextNode('edit')
+        notesBtn.setAttribute('class', 'notes')
+        delBtn.setAttribute('class', 'delete')
+        editBtn.setAttribute('class', 'edit')
+        notesBtn.appendChild(notes)
+        delBtn.appendChild(del)
+        editBtn.appendChild(edit)
 
-    elem.appendChild(delBtn)
-    elem.appendChild(editBtn)
-    elem.appendChild(notesBtn)
-}
-const notes = function(e) {
-    if (e.classList.contains('notes')) {
-        console.log(e.className)
+        elem.appendChild(delBtn)
+        elem.appendChild(editBtn)
+            //   elem.appendChild(notesBtn)
     }
-}
+    // const notes = function (e) {
+    //   if (e.classList.contains('notes')) {
+    //     console.log(e)
+    //   }
+    // }
 const deleter = function(e) {
     if (e.classList.contains('delete')) {
         e.parentNode.parentNode.removeChild(e.parentNode)
@@ -132,4 +132,4 @@ document.getElementById('text').addEventListener('keypress', function(e) {
 checkClick(deleter)
 checkClick(editor)
 checkClick(taskDone)
-checkClick(notes)
+    // checkClick(notes)
