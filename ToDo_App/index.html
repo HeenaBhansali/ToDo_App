@@ -3,25 +3,28 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Todo List</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>To Do List</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Pacifico" rel="stylesheet">
+    <link rel="stylesheet" href="style/font-awesome.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1>Todo List : </h1>
+            <h1>ToDo List </h1>
         </header>
-        <div class="task">
-            <input type="text" id="text" placeholder="What needs to be done ?">
+        <div class="add-to-do">
+            <input type="text" id="input" placeholder="Add a to-do">
             <button id="add">+</button>
         </div>
-        <div class="item" id="item">
-            <!-- <ul class="list" id="list"></ul> -->
+        <div class="content">
+            <ul id="list">
+            </ul>
         </div>
-        <script type="text/javascript" src="script.js"></script>
+
     </div>
+    <script src="script.js"></script>
 </body>
 
 </html>

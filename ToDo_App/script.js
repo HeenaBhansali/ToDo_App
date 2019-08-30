@@ -1,158 +1,153 @@
-const div = document.getElementById('item')
-const button = document.getElementById('add')
-const input = document.getElementById('text')
+const list = document.getElementById('list')
+const input = document.getElementById('input')
 
-let itemsArray
+const CHECK = 'fa-check-circle'
+const UNCHECK = 'fa-circle-thin'
+const LINE_THROUGH = 'lineThrough'
+    // const ADDNOTE = 'fa-sticky-note'
+    // const VIEWNOTE = 'fa-sticky-note-o'
 
-if (localStorage.getItem('items')) {
-    itemsArray = JSON.parse(localStorage.getItem('items'))
+let LIST, id
+
+const data = localStorage.getItem('TODO')
+
+if (data) {
+    LIST = JSON.parse(data)
+    let d = new Date()
+    id = d.getTime()
+
+    //   id = LIST.length
+    loadList(LIST)
 } else {
-    itemsArray = []
+    LIST = []
+    let d = new Date()
+    id = d.getTime()
+
+    //   id = 0
 }
 
-localStorage.setItem('items', JSON.stringify(itemsArray))
-const data = JSON.parse(localStorage.getItem('items'))
-
-const divMaker = text => {
-    const divitem = document.createElement('div')
-    divitem.textContent = text
-    div.appendChild(divitem)
+function loadList(array) {
+    array.forEach(function(item) {
+        addToDo(item.name, item.id, item.done, item.note)
+    })
 }
-button.addEventListener('click', function(e) {
-    let count = itemsArray.length + 1
-    let val = input.value
-    let obj = {
-        id: count,
-        value: val
+
+function addToDo(toDo, id, done) {
+    // id = d.getTime()
+
+    const DONE = done ? CHECK : UNCHECK
+    const LINE = done ? LINE_THROUGH : ''
+
+    const item = `<li class="item">
+                    <i class="fa ${DONE} co" job="complete" id="${id}"></i>
+                    <p class="text ${LINE}">${toDo}</p>
+                    <i class="fa fa-pencil  ed" job="edit" id="${id} "></i>
+                    <i class="fa fa-sticky-note no" job="notes" id="${id} "></i>
+                    
+                    <i class="fa fa-trash-o de" job="delete" id="${id}"></i>
+                    </li>
+                `
+
+    const position = 'beforeend'
+
+    list.insertAdjacentHTML(position, item)
+}
+input.addEventListener('change', function(event) {
+    let d = new Date()
+    id = d.getTime()
+    const toDo = input.value
+
+    if (toDo) {
+        addToDo(toDo, id, false)
+
+        LIST.push({
+            name: toDo,
+            id: id,
+            done: false
+                // note: 'addNote'
+
+        })
+
+        localStorage.setItem('TODO', JSON.stringify(LIST))
+
+        //   id++
+
+        input.value = ''
     }
-
-    itemsArray.push(obj)
-        //   console.log(obj.val)
-    localStorage.setItem('items', JSON.stringify(itemsArray))
-    divMaker(input.value)
-    input.value = ''
 })
 
-data.forEach(item => {
-    divMaker(item)
+function completeToDo(element) {
+    element.classList.toggle(CHECK)
+    element.classList.toggle(UNCHECK)
+    element.parentNode.querySelector('.text').classList.toggle(LINE_THROUGH)
+        // console.log(LIST)
+    for (var i = 0; i < LIST.length; i++) {
+        if (LIST[i].id === Number(element.id)) {
+            LIST[i].done = !LIST[i].done
+        }
+    }
+}
+
+function removeToDo(element) {
+    element.parentNode.parentNode.removeChild(element.parentNode)
+    for (var i = 0; i < LIST.length; i++) {
+        if (LIST[i].id === Number(element.id)) {
+            LIST.splice(i, 1)
+        }
+    }
+}
+
+function editToDo(element) {
+    //   console.log(element.parentNode.querySelector('.text'))
+    const editContent = element.parentNode.querySelector('.text')
+        //   editContent.setAttribute('id', 'editable')
+    editContent.contentEditable = true
+    editContent.focus()
+
+    //   editContent.setAttribute('id', 'lispan')
+    //   setlocalStorage()
+    //   document.addEventListener('click', function (e) {
+    //     if (e.target.parentNode.querySelector('span').id !== 'editable') editmode()
+
+    // if (e.target.id !== 'editable') editmode()
+    //   })
+    editContent.addEventListener('keypress', function(e) {
+        if (e.code === 'Enter') {
+            const updateText = editContent.innerHTML
+            console.log(element.id)
+            for (var i = 0; i < LIST.length; i++) {
+                if (LIST[i].id === Number(element.id)) {
+                    console.log(i)
+                    console.log(LIST)
+                    LIST[i].name = updateText
+                    console.log(LIST)
+                        //   updateText
+                        //   LIST.splice(i, 1)
+                }
+            }
+            editContent.contentEditable = false
+            editContent.blur()
+        }
+        localStorage.setItem('TODO', JSON.stringify(LIST))
+    })
+}
+
+// function noteToDo (element) {
+//   const item = ` <p class="text ">jnnk</p>
+//                 `
+
+//   const position = 'afterend'
+
+//   list.insertAdjacentHTML(position, item)
+// }
+
+list.addEventListener('click', function(event) {
+    const element = event.target
+    const elementJob = element.attributes.job.value
+    if (elementJob === 'complete') completeToDo(element)
+    if (elementJob === 'delete') removeToDo(element)
+    if (elementJob === 'edit') editToDo(element)
+        // if (elementJob == 'notes') noteToDo(element)
+
+    localStorage.setItem('TODO', JSON.stringify(LIST))
 })
-
-// const ul = document.getElementById('list')
-
-// const add = function () {
-//   const li = document.createElement('li')
-//   const liText = document.getElementById('text').value.trim()
-//   const textSpan = document.createElement('span')
-//   const text = document.createTextNode(liText)
-//   textSpan.appendChild(text)
-//   textSpan.setAttribute('class', 'textSpan')
-//   textSpan.setAttribute('id', 'lispan')
-//   if (liText === '') {
-//     alert('Enter your task!')
-//   } else {
-//     complete(li)
-//     li.appendChild(textSpan)
-//     notesEditDel(li)
-//     ul.appendChild(li)
-//     document.getElementById('text').value = ''
-//     setlocalStorage()
-//   }
-// }
-// const complete = function (e) {
-//   const completeBtn = document.createElement('button')
-//   const complete = document.createTextNode('')
-//   completeBtn.setAttribute('class', 'complete')
-//   completeBtn.appendChild(complete)
-//   e.appendChild(completeBtn)
-// }
-// const compFunc = function (e) {
-//   if (e.classList.contains('complete')) {
-//     const textSpan = e.parentNode.querySelector('span')
-//     console.log(textSpan)
-//     if (textSpan.className === 'inactive') {
-//       e.parentNode.firstChild.innerHTML = ''
-//       textSpan.seitemsArraytAttribute('class', 'active')
-//     } else {
-//       e.parentNode.firstChild.innerHTML = '\u2714'
-//       textSpan.setAttribute('class', 'inactive')
-//     }
-//   }
-//   setlocalStorage()
-// }
-
-// const notesEditDel = function (e) {
-//   const notesBtn = document.createElement('button')
-//   const delBtn = document.createElement('button')
-//   const editBtn = document.createElement('button')
-//   const notes = document.createTextNode('notes')
-//   const del = document.createTextNode('delete')
-//   const edit = document.createTextNode('edit')
-//   notesBtn.setAttribute('class', 'notes')
-//   delBtn.setAttribute('class', 'delete')
-//   editBtn.setAttribute('class', 'edit')
-//   notesBtn.appendChild(notes)
-//   delBtn.appendChild(del)
-//   editBtn.appendChild(edit)
-
-//   e.appendChild(delBtn)
-//   e.appendChild(editBtn)
-//   //   e.appendChild(notesBtn)
-// }
-
-// const delFunc = function (e) {
-//   if (e.classList.contains('delete')) {
-//     console.log(e.target)
-//     e.parentNode.parentNode.removeChild(e.parentNode)
-//     setlocalStorage()
-//   }
-// }
-
-// const editFunc = function (e) {
-//   if (e.classList.contains('edit')) {
-//     const editContent = e.parentNode.querySelector('span')
-//     editContent.setAttribute('id', 'editable')
-//     editContent.contentEditable = true
-//     editContent.focus()
-//     const editmode = function (e) {
-//       editContent.contentEditable = false
-//       editContent.blur()
-//       editContent.setAttribute('id', 'lispan')
-//       setlocalStorage()
-//     }
-//     document.addEventListener('click', function (e) {
-//       if (e.target.parentNode.querySelector('span').id !== 'editable') editmode()
-//     })
-//     editContent.addEventListener('keypress', function (e) {
-//       if (e.code === 'Enter') editmode()
-//     })
-//   }
-//   setlocalStorage()
-// }
-
-// const checkClick = function (func) {
-//   ul.addEventListener('click', function (e) {
-//     const target = e.target
-//     console.log(target)
-//     func(target)
-//   })
-// }
-
-// const setlocalStorage = function () {
-//   const str = JSON.stringify(ul.innerHTML)
-//   localStorage.setItem('todos', str)
-// }
-
-// const getlocalStorage = function () {
-//   const str = localStorage.getItem('todos')
-//   ul.innerHTML = JSON.parse(str)
-// }
-
-// getlocalStorage()
-// document.getElementById('add').addEventListener('click', add)
-// document.getElementById('text').addEventListener('keypress', function (e) {
-//   if (e.code === 'Enter') add()
-// })
-
-// checkClick(delFunc)
-// checkClick(editFunc)
-// checkClick(compFunc)
