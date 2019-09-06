@@ -5,7 +5,7 @@ const date = document.querySelector('.date')
 const add = document.querySelector('.add')
 const CHECK = 'fa-check-circle'
 const UNCHECK = 'fa-circle-thin'
-const LINE_THROUGH = 'lineThrough'
+const disable = 'disabled'
     // const ADDNOTE = 'fa-sticky-note'
     // const VIEWNOTE = 'fa-sticky-note-o'
 
@@ -33,15 +33,16 @@ function loadList(array) {
 
 function addToDo(id, task, notes, date, done) {
     // id = d.getTime()
-
+    console.log(date)
     const DONE = done ? CHECK : UNCHECK
-    const LINE = done ? LINE_THROUGH : ''
+    const LINE = done ? disable : ''
 
     const item = `<div class="newlist"><li class="item">
                    <div> <i class="fa ${DONE} co" job="complete" id="${id}"></i></div>
-                  <div class ="listtext">  <h3 class="text  ${LINE}">${task}</h3><p class ="note">${notes}</p></div>
-                    <div><i class="fa fa-pencil  ed" job="edit" id="${id} "></i></div>
-                   <div> <i class="fa fa-trash-o  de" job="delete" id="${id}"></i></div>
+                  <div class ="listtext ${LINE}">  <h3 class="text  ">${task}</h3><p class ="note">${notes}</p></div>
+                  <div><p class="adddate ${LINE}">${date}</p></div>  
+                  <div><i class="fa fa-pencil ${LINE} ed" job="edit" id="${id} "></i></div>
+                   <div> <i class="fa fa-trash-o ${LINE} de" job="delete" id="${id}"></i></div>
                     </li></div>
                 `
 
@@ -52,6 +53,7 @@ function addToDo(id, task, notes, date, done) {
 add.addEventListener('click', function(event) {
     let d = new Date()
     let id = d.getTime()
+    var date = document.getElementById('date').value
     const toDo = input.value
     const note = notes.value
     if (toDo) {
@@ -79,9 +81,10 @@ function completeToDo(element, LIST) {
     //   let LIST = getLIST()
     element.classList.toggle(CHECK)
     element.classList.toggle(UNCHECK)
-    element.parentNode.parentNode.querySelector('.listtext').classList.toggle(LINE_THROUGH)
-    element.parentNode.parentNode.querySelector('.ed').classList.toggle(LINE_THROUGH)
-    element.parentNode.parentNode.querySelector('.de').classList.toggle(LINE_THROUGH)
+    element.parentNode.parentNode.querySelector('.listtext').classList.toggle(disable)
+    element.parentNode.parentNode.querySelector('.ed').classList.toggle(disable)
+    element.parentNode.parentNode.querySelector('.de').classList.toggle(disable)
+    element.parentNode.parentNode.querySelector('.adddate').classList.toggle(disable)
 
     // console.log(LIST)
     for (var i = 0; i < LIST.length; i++) {
@@ -112,7 +115,7 @@ function editToDo(element, LIST) {
         //   const noteContent = element.parentNode.querySelector('.note')
         //   editContent.setAttribute('id', 'editable')
     editContent.contentEditable = true
-
+    let content = editContent.textContent
     noteContent.contentEditable = true
     editContent.focus()
     noteContent.focus()
@@ -128,13 +131,14 @@ function editToDo(element, LIST) {
         // let LIST = getLIST()
         if (e.code === 'Enter') {
             const updateText = editContent.textContent
-            const updateNote = noteContent.innerHTML
+            const updateNote = noteContent.textContent
             console.log(element.id)
 
             for (var i = 0; i < LIST.length; i++) {
                 if (LIST[i].id === Number(element.id)) {
-                    console.log(i)
-                    console.log(LIST)
+                    //   console.log(i)
+                    //   console.log(LIST)
+                    console.log('jhg')
                     LIST[i].name = updateText
                     LIST[i].notes = updateNote
                     console.log(LIST)
