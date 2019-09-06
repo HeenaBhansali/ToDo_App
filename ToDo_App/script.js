@@ -9,23 +9,20 @@ const LINE_THROUGH = 'lineThrough'
     // const ADDNOTE = 'fa-sticky-note'
     // const VIEWNOTE = 'fa-sticky-note-o'
 
-let LIST, id
+init()
 
-const data = localStorage.getItem('TODO')
+function init() {
+    if (!getLIST()) setLIST([])
+    console.log(getLIST())
+    loadList(getLIST())
+}
 
-if (data) {
-    LIST = JSON.parse(data)
-    let d = new Date()
-    id = d.getTime()
+function getLIST() {
+    return JSON.parse(localStorage.getItem('TODO'))
+}
 
-    //   id = LIST.length
-    loadList(LIST)
-} else {
-    LIST = []
-    let d = new Date()
-    id = d.getTime()
-
-    //   id = 0
+function setLIST(LIST) {
+    localStorage.setItem('TODO', JSON.stringify(LIST))
 }
 
 function loadList(array) {
@@ -40,14 +37,12 @@ function addToDo(id, task, notes, date, done) {
     const DONE = done ? CHECK : UNCHECK
     const LINE = done ? LINE_THROUGH : ''
 
-    const item = `<li class="item">
-                    <i class="fa ${DONE} co" job="complete" id="${id}"></i>
-                  <div>  <h3 class="text ${LINE}">${task}</h3><p class ="note">${notes}</p></div>
-                    <i class="fa fa-pencil  ed" job="edit" id="${id} "></i>
-                    <i class="fa fa-sticky-note no" job="notes" id="${id} "></i>
-                    
-                    <i class="fa fa-trash-o de" job="delete" id="${id}"></i>
-                    </li>
+    const item = `<div class="newlist"><li class="item">
+                   <div> <i class="fa ${DONE} co" job="complete" id="${id}"></i></div>
+                  <div class ="listtext">  <h3 class="text  ${LINE}">${task}</h3><p class ="note">${notes}</p></div>
+                    <div><i class="fa fa-pencil  ed" job="edit" id="${id} "></i></div>
+                   <div> <i class="fa fa-trash-o  de" job="delete" id="${id}"></i></div>
+                    </li></div>
                 `
 
     const position = 'beforeend'
@@ -56,12 +51,12 @@ function addToDo(id, task, notes, date, done) {
 }
 add.addEventListener('click', function(event) {
     let d = new Date()
-    id = d.getTime()
+    let id = d.getTime()
     const toDo = input.value
     const note = notes.value
     if (toDo) {
         addToDo(id, toDo, note, date, false)
-
+        let LIST = getLIST()
         LIST.push({
             id: id,
             name: toDo,
@@ -72,41 +67,55 @@ add.addEventListener('click', function(event) {
 
         })
 
-        localStorage.setItem('TODO', JSON.stringify(LIST))
-
-        //   id++
+        setLIST(LIST)
+            //   id++
 
         input.value = ''
+        notes.value = ''
     }
 })
 
-function completeToDo(element) {
+function completeToDo(element, LIST) {
+    //   let LIST = getLIST()
     element.classList.toggle(CHECK)
     element.classList.toggle(UNCHECK)
-    element.parentNode.querySelector('.text').classList.toggle(LINE_THROUGH)
-        // console.log(LIST)
+    element.parentNode.parentNode.querySelector('.listtext').classList.toggle(LINE_THROUGH)
+    element.parentNode.parentNode.querySelector('.ed').classList.toggle(LINE_THROUGH)
+    element.parentNode.parentNode.querySelector('.de').classList.toggle(LINE_THROUGH)
+
+    // console.log(LIST)
     for (var i = 0; i < LIST.length; i++) {
         if (LIST[i].id === Number(element.id)) {
             LIST[i].done = !LIST[i].done
         }
     }
+    setLIST(LIST)
 }
 
-function removeToDo(element) {
-    element.parentNode.parentNode.removeChild(element.parentNode)
+function removeToDo(element, LIST) {
+    //   let LIST = getLIST()
+    console.log(element.parentNode.parentNode)
+    element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode)
     for (var i = 0; i < LIST.length; i++) {
         if (LIST[i].id === Number(element.id)) {
             LIST.splice(i, 1)
         }
     }
+    setLIST(LIST)
 }
 
-function editToDo(element) {
-    //   console.log(element.parentNode.querySelector('.text'))
-    const editContent = element.parentNode.querySelector('.text')
+function editToDo(element, LIST) {
+    //   console.log(element.parentNode.parentNode.querySelector('.listtext').querySelector('.text'))
+    //   console.log(element.parentNode.querySelector('#text'))
+    const editContent = element.parentNode.parentNode.querySelector('.listtext').querySelector('.text')
+    const noteContent = element.parentNode.parentNode.querySelector('.listtext').querySelector('.note')
+        //   const noteContent = element.parentNode.querySelector('.note')
         //   editContent.setAttribute('id', 'editable')
     editContent.contentEditable = true
+
+    noteContent.contentEditable = true
     editContent.focus()
+    noteContent.focus()
 
     //   editContent.setAttribute('id', 'lispan')
     //   setlocalStorage()
@@ -116,14 +125,18 @@ function editToDo(element) {
     // if (e.target.id !== 'editable') editmode()
     //   })
     editContent.addEventListener('keypress', function(e) {
+        // let LIST = getLIST()
         if (e.code === 'Enter') {
-            const updateText = editContent.innerHTML
+            const updateText = editContent.textContent
+            const updateNote = noteContent.innerHTML
             console.log(element.id)
+
             for (var i = 0; i < LIST.length; i++) {
                 if (LIST[i].id === Number(element.id)) {
                     console.log(i)
                     console.log(LIST)
                     LIST[i].name = updateText
+                    LIST[i].notes = updateNote
                     console.log(LIST)
                         //   updateText
                         //   LIST.splice(i, 1)
@@ -131,8 +144,10 @@ function editToDo(element) {
             }
             editContent.contentEditable = false
             editContent.blur()
+            noteContent.contentEditable = false
+            noteContent.blur()
         }
-        localStorage.setItem('TODO', JSON.stringify(LIST))
+        setLIST(LIST)
     })
 }
 
@@ -146,12 +161,12 @@ function editToDo(element) {
 // }
 
 list.addEventListener('click', function(event) {
+    let LIST = getLIST()
     const element = event.target
     const elementJob = element.attributes.job.value
-    if (elementJob === 'complete') completeToDo(element)
-    if (elementJob === 'delete') removeToDo(element)
-    if (elementJob === 'edit') editToDo(element)
+    if (elementJob === 'complete') completeToDo(element, LIST)
+    if (elementJob === 'delete') removeToDo(element, LIST)
+    if (elementJob === 'edit') editToDo(element, LIST)
         // if (elementJob == 'notes') noteToDo(element)
-
-    localStorage.setItem('TODO', JSON.stringify(LIST))
+        //   setLIST(LIST)
 })
