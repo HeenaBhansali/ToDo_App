@@ -1,6 +1,8 @@
 const list = document.getElementById('list')
-const input = document.getElementById('input')
-
+const input = document.querySelector('.task')
+const notes = document.querySelector('.notes')
+const date = document.querySelector('.date')
+const add = document.querySelector('.add')
 const CHECK = 'fa-check-circle'
 const UNCHECK = 'fa-circle-thin'
 const LINE_THROUGH = 'lineThrough'
@@ -28,11 +30,11 @@ if (data) {
 
 function loadList(array) {
     array.forEach(function(item) {
-        addToDo(item.name, item.id, item.done, item.note)
+        addToDo(item.id, item.name, item.notes, item.date, item.done)
     })
 }
 
-function addToDo(toDo, id, done) {
+function addToDo(id, task, notes, date, done) {
     // id = d.getTime()
 
     const DONE = done ? CHECK : UNCHECK
@@ -40,7 +42,7 @@ function addToDo(toDo, id, done) {
 
     const item = `<li class="item">
                     <i class="fa ${DONE} co" job="complete" id="${id}"></i>
-                    <p class="text ${LINE}">${toDo}</p>
+                  <div>  <h3 class="text ${LINE}">${task}</h3><p class ="note">${notes}</p></div>
                     <i class="fa fa-pencil  ed" job="edit" id="${id} "></i>
                     <i class="fa fa-sticky-note no" job="notes" id="${id} "></i>
                     
@@ -52,17 +54,19 @@ function addToDo(toDo, id, done) {
 
     list.insertAdjacentHTML(position, item)
 }
-input.addEventListener('change', function(event) {
+add.addEventListener('click', function(event) {
     let d = new Date()
     id = d.getTime()
     const toDo = input.value
-
+    const note = notes.value
     if (toDo) {
-        addToDo(toDo, id, false)
+        addToDo(id, toDo, note, date, false)
 
         LIST.push({
-            name: toDo,
             id: id,
+            name: toDo,
+            notes: note,
+            date: date,
             done: false
                 // note: 'addNote'
 

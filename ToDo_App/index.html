@@ -3,28 +3,52 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>To Do List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Pacifico" rel="stylesheet">
     <link rel="stylesheet" href="style/font-awesome.css">
     <link rel="stylesheet" href="style/style.css">
+    <title>toDo app</title>
 </head>
 
 <body>
     <div class="container">
-        <header>
-            <h1>ToDo List </h1>
-        </header>
-        <div class="add-to-do">
-            <input type="text" id="input" placeholder="Add a to-do">
-            <button id="add">+</button>
-        </div>
-        <div class="content">
-            <ul id="list">
-            </ul>
-        </div>
+        <div class="newTask">
+            <h3>Please enter task details:</h3>
+            <div class="app-component__info">
+                <form class="inputField">
+                    <input type="text" class="task" placeholder="Title" required> <br><br>
+                    <textarea class="notes" rows="3" cols="40" maxlength="50" placeholder="Note" required></textarea>
+                </form>
+                <div class="taskPriority">
+                    <div class="priority">
+                        <h3>Please choose the priority:</h3>
 
+                        <div class="rating">
+                            <input type="radio" class="rating_low" checked id="star3" name="star" value="1">
+                            <label for="star3"> Low </label>
+                            <input type="radio" class="rating_medium" id="star2" name="star" value="2">
+                            <label for="star2"> Medium </label>
+                            <input type="radio" class="rating_high" id="star1" name="star" value="3">
+                            <label for="star1"> High </label>
+                        </div>
+                        <h3>Due Date:</h3>
+                        <input type="date" class="date">
+                    </div>
+                    <input type="submit" class="add" value="Add task">
+
+                </div>
+            </div>
+            <div class="task-list__container">
+                <ul class="task-list" id="list">
+
+
+            </div>
+        </div>
+        <div class="delete">
+            <button class=" deletebtn">Delete</button>
+        </div>
     </div>
-    <script src="script.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 </body>
 
 </html>
