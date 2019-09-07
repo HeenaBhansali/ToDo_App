@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Pacifico" rel="stylesheet">
     <link rel="stylesheet" href="style/font-awesome.css">
     <link rel="stylesheet" href="style/style.css">
@@ -16,20 +15,20 @@
             <h3>Please enter task details:</h3>
             <div class="app-component__info">
                 <form class="inputField">
-                    <input type="text" class="task" placeholder="Title" required> <br><br>
-                    <textarea class="notes" rows="3" cols="40" maxlength="50" placeholder="Note" required></textarea>
+                    <input type="text" class="task" placeholder="Title">
+                    <textarea class="notes" rows="3" cols="40" maxlength="50" placeholder="Note"></textarea>
                 </form>
                 <div class="taskPriority">
                     <div class="priority">
                         <h3>Please choose the priority:</h3>
 
-                        <div class="rating">
-                            <input type="radio" class="rating_low" checked id="star3" name="star" value="1">
-                            <label for="star3"> Low </label>
-                            <input type="radio" class="rating_medium" id="star2" name="star" value="2">
-                            <label for="star2"> Medium </label>
-                            <input type="radio" class="rating_high" id="star1" name="star" value="3">
-                            <label for="star1"> High </label>
+                        <div class="rating" name="rating">
+                            <input type="radio" class="rating_low" checked id="low" name="radio" value="1">
+                            <label for="low"> Low </label>
+                            <input type="radio" class="rating_medium" id="medium" name="radio" value="2">
+                            <label for="medium"> Medium </label>
+                            <input type="radio" class="rating_high" id="high" name="radio" value="3">
+                            <label for="high"> High </label>
                         </div>
                         <h3>Due Date:</h3>
                         <input type="date" id="date" class="date">
